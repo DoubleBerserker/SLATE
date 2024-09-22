@@ -11,3 +11,7 @@ def home(request):
 def prediction(request):
     template = loader.get_template('prediction.html')
     return HttpResponse(template.render())
+
+def webcamPrediction(request):
+    template = loader.get_template('webcamPrediction.html')
+    return HttpResponse(template.render())

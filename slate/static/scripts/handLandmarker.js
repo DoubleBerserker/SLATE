@@ -23,15 +23,17 @@ async function createHandLandmarker() {
 }
 createHandLandmarker();
 
-const imageContainer = document.getElementsByClassName("imageInput");
+const landmarkBtn = document.getElementById("landmarkBtn")
+landmarkBtn.addEventListener('click', handleClick);
 
+const imageContainer = document.getElementsByClassName("imageInput");
 for (let i = 0; i < imageContainer.length; i++) {
   imageContainer[i].children[0].addEventListener("click", handleClick);
 }
 
 // imageContainer[0].children[0].addEventListener("click", handleClick);
 
-async function handleClick(event) {
+export async function handleClick(event) {
     if(!handLandmarker) {
         console.log("Wait for Hand Landmarker to load!");
         return;
