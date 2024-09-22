@@ -2,15 +2,16 @@
 import {
   HandLandmarker,
   FilesetResolver
-} from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision";    // Try using specific version if this doesn't work: 0.10.0 or 0.10.14
+} from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0";    // Try using specific version if this doesn't work: 0.10.0 or 0.10.14
 
-let handLandmarker = undefined      // Mediapipe model loaded with options. Use .detect(~~img~~) for landmarks.
-let image = undefined   // Temporary for testing purposes. Delete later
+// Mediapipe model loaded with options. Use .detect(~~img~~) for landmarks.
+// handLandmarker will be loaded when createHandLandmarker() is called.
+let handLandmarker = undefined
 
 async function createHandLandmarker() {
     const vision = await
         FilesetResolver.forVisionTasks(
-            "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision/wasm"
+            "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0/wasm"
         );
 
     handLandmarker = await HandLandmarker.createFromOptions(vision, {
@@ -24,17 +25,37 @@ async function createHandLandmarker() {
 }
 createHandLandmarker();
 
-let results = handLandmarker.detect(image);
+const imageContainer = document.getElementsByClassName("imageInput");
 
-const canvasCtx = canvas
-const drawingUtils = new DrawingUtils()
+for (let i = 0; i < imageContainer.length; i++) {
+  imageContainer[i].children[0].addEventListener("click", handleClick);
+}
 
+// imageContainer[0].children[0].addEventListener("click", handleClick);
 
+async function handleClick(event) {
+    if(!handLandmarker) {
+        console.log("Wait for Hand Landmarker to load!");
+        return;
+    }
+    const handLandmarkerResult = handLandmarker.detect(event.target);
 
+    const canvas = document.createElement("canvas");
+    canvas.setAttribute("class", "canvas");
+    canvas.setAttribute("width", event.target.naturalWidth + "px");
+    canvas.setAttribute("height", event.target.naturalHeight + "px");
+    canvas.style = "left: 0px; top: 0px; width: " + event.target.width + "px; height: " + event.target.height + "px;";
 
-// // Generating Webcam Stream
-// const webcamView = document.getElementById("webcamVideo");
-//
-// navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
-//     webcamView.srcObject = stream;
-// })
+    event.target.parentNode.appendChild(canvas);
+
+    const cxt = canvas.getContext("2d");
+
+    for (const landmarks of handLandmarkerResult.landmarks) {
+        // console.log(landmarks);
+        drawConnectors(cxt, landmarks, HandLandmarker.HAND_CONNECTIONS, {
+            color: "#00FF00",
+            lineWidth: 5
+        });
+        drawLandmarks(cxt, landmarks, {color: "#FF0000", lineWidth: 1});
+    }
+}
