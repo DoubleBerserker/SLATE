@@ -14,7 +14,7 @@ async function createHandLandmarker() {
 
     handLandmarker = await HandLandmarker.createFromOptions(vision, {
         baseOptions: {
-            modelAssetPath: "http://127.0.0.1:8000/static/models/hand_landmarker.task",
+            modelAssetPath: "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task",
             delegate: "GPU"
         },
         runningMode: "IMAGE", // Change this for Image --> Webcam Input
