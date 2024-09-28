@@ -4,24 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Webcam Prediction</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <script type="module" src="https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0/vision_bundle.js" crossorigin="anonymous"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
 </head>
 <body>
-<!--    <script type="module" src="{% static 'scripts/handLandmarker.js' %}"></script>-->
-    <script type="module" src="{% static 'scripts/script.js' %}"></script>
-    <div>
-        <div class="camera">
-            <video id="video">Video stream not available.</video>
-            <button id="startbutton">Take Photo</button>
-        </div>
-
-        <canvas id="canvas"></canvas>
-        <div class="output imageInput">
-            <img id="photo" alt="For Screen Capture">
-            <button id="landmarkBtn"> Draw Landmarks </button>
-        </div>
-    </div>
     <script type="module" src="{% static 'scripts/handLandmarker.js' %}"></script>
+
+    <section id="demos" class="invisible">
+        <div id="liveView" class="videoView">
+            <button id="webcamButton"> ENABLE WEBCAM </button>
+            <div style="position: relative;">
+                <video id="webcam" style="position: absolute;" autoplay playsinline></video>
+                <canvas id="output_canvas" class="output_canvas" style="position: absolute; left: 0; top: 0;"></canvas>
+            </div>
+        </div>
+    </section>
 </body>
 </html>

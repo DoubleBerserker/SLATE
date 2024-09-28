@@ -1,21 +1,24 @@
-/* Image landmarker style begin */
-.imageInput {
+video {
+  clear: both;
+  display: block;
+  transform: rotateY(180deg);
+}
+
+section {
+  opacity: 1;
+  transition: opacity 500ms ease-in-out;
+}
+
+.invisible {
+  opacity: 0.2;
+}
+
+.videoView {
   position: relative;
   float: left;
   width: 48%;
   margin: 2% 1%;
   cursor: pointer;
-}
-
-.imageInput p {
-  position: absolute;
-  padding: 5px;
-  background-color: #007f8b;
-  color: #fff;
-  border: 1px dashed rgba(255, 255, 255, 0.7);
-  z-index: 2;
-  font-size: 12px;
-  margin: 0;
 }
 
 .canvas {
@@ -24,64 +27,8 @@
   pointer-events: none;
 }
 
-.imageInput {
-  z-index: 0;
+.output_canvas {
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
 }
-
-.imageInput img {
-  width: 100%;
-}
-
-/* Image landmarker style end */
-
-/* Webcam landmarker style begin */
-#video {
-  border: 1px solid black;
-  box-shadow: 2px 2px 3px black;
-  width: 320px;
-  height: 240px;
-}
-
-#photo {
-  border: 1px solid black;
-  box-shadow: 2px 2px 3px black;
-  width: 320px;
-  height: 240px;
-}
-
-#canvas {
-  display: none;
-}
-
-.camera {
-  width: 340px;
-  display: inline-block;
-}
-
-.output {
-  width: 340px;
-  display: inline-block;
-  vertical-align: top;
-}
-
-#startbutton {
-  display: block;
-  position: relative;
-  margin-left: auto;
-  margin-right: auto;
-  bottom: 32px;
-  background-color: rgb(0 150 0 / 50%);
-  border: 1px solid rgb(255 255 255 / 70%);
-  box-shadow: 0px 0px 1px 2px rgb(0 0 0 / 20%);
-  font-size: 14px;
-  font-family: "Lucida Grande", "Arial", sans-serif;
-  color: rgb(255 255 255 / 100%);
-}
-
-.contentarea {
-  font-size: 16px;
-  font-family: "Lucida Grande", "Arial", sans-serif;
-  width: 760px;
-}
-
-/* Webcam landmarker style end */
