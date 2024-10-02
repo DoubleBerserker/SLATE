@@ -13,6 +13,9 @@ let enableWebcamButton = undefined;
 let webcamRunning = false;
 let runningMode = 'VIDEO';
 
+// Landmarks sequence array to be sent to ML model
+let sequence = []
+
 async function createHandLandmarker() {
     const vision = await
         FilesetResolver.forVisionTasks("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0/wasm");
@@ -98,4 +101,29 @@ async function predictWebcam() {
     if (webcamRunning === true) {
         window.requestAnimationFrame(predictWebcam);
     }
+
+    // Collect landmark sequence to send as input to ML model
+    if (results.landmarks) {
+        let outputValues = [];
+        iterate(outputValues);
+        if (sequence.length < 10) {
+            sequence.push(outputValues);
+        } else {
+            console.log(sequence);
+            sequence = [];
+        }
+    }
+}
+
+let outputBtn = document.getElementById("outputButton");
+outputBtn.addEventListener("click", iterate);
+
+function iterate (outputValues) {
+    for (let i = 0; i < 21; i++) {
+        outputValues.push(results.worldLandmarks[0][i].x);
+        outputValues.push(results.worldLandmarks[0][i].y);
+        outputValues.push(results.worldLandmarks[0][i].z);
+    }
+    // document.getElementById("outputText").innerText = outputValues;
+    // console.log(outputValues);
 }

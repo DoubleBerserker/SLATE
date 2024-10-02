@@ -8,10 +8,7 @@ def home(request):
     return HttpResponse(template.render())
 
 
-def prediction(request):
-    template = loader.get_template('prediction.html')
-    return HttpResponse(template.render())
-
 def webcamPrediction(request):
     template = loader.get_template('webcamPrediction.html')
+    print("Successful webcam prediction")
     return HttpResponse(template.render())
