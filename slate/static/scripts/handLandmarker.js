@@ -105,25 +105,68 @@ async function predictWebcam() {
     // Collect landmark sequence to send as input to ML model
     if (results.landmarks) {
         let outputValues = [];
-        iterate(outputValues);
-        if (sequence.length < 10) {
+        getLandmarksArray(outputValues);
+        if (sequence.length < 20) {
             sequence.push(outputValues);
         } else {
+            sequence = sequence.slice(-10);
             console.log(sequence);
-            sequence = [];
         }
     }
 }
 
-let outputBtn = document.getElementById("outputButton");
-outputBtn.addEventListener("click", iterate);
-
-function iterate (outputValues) {
+function getLandmarksArray (outputValues) {
     for (let i = 0; i < 21; i++) {
         outputValues.push(results.worldLandmarks[0][i].x);
         outputValues.push(results.worldLandmarks[0][i].y);
         outputValues.push(results.worldLandmarks[0][i].z);
     }
-    // document.getElementById("outputText").innerText = outputValues;
-    // console.log(outputValues);
 }
+
+// Method used to get csrf-token cookie (method definition taken from Django csrf documentation)
+function getCookie(name) {
+    let cookieValue = null;
+  if (document.cookie && document.cookie !== "") {
+    const cookies = document.cookie.split(";");
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      // Does this cookie string begin with the name we want?
+      if (cookie.substring(0, name.length + 1) === (name + "=")) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+
+$(document).ready(
+    $('#outputButton').click(function() {
+        if(sequence.length >= 10) {
+            $.ajax(
+                {
+                    url: "../getPrediction/",
+                    type: "POST",
+                    data: {
+                        'sequence': sequence.slice(-10)
+                    },
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest",
+                        "X-CSRFToken": getCookie("csrftoken")
+                    },
+                    success: function (response) {
+                        $('#outputText').text("Successful ajax call.");
+                        alert(response);
+                    },
+                    error: function (response) {
+                        $('#outputText').text("Error.");
+                        alert("Error");
+                    }
+                }
+            );
+        }
+        else {
+            alert("Not Enough Sequences");
+        }
+    })
+);
