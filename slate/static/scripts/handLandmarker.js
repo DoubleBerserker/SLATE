@@ -103,14 +103,14 @@ async function predictWebcam() {
     }
 
     // Collect landmark sequence to send as input to ML model
-    if (results.landmarks) {
+    if (results.worldLandmarks[0]) {
         let outputValues = [];
         getLandmarksArray(outputValues);
         if (sequence.length < 20) {
             sequence.push(outputValues);
         } else {
             sequence = sequence.slice(-10);
-            console.log(sequence);
+            // console.log(sequence);
         }
     }
 }
@@ -140,33 +140,47 @@ function getCookie(name) {
   return cookieValue;
 }
 
-$(document).ready(
-    $('#outputButton').click(function() {
-        if(sequence.length >= 10) {
-            $.ajax(
-                {
-                    url: "../getPrediction/",
-                    type: "POST",
-                    data: {
-                        'sequence': sequence.slice(-10)
-                    },
-                    headers: {
-                        "X-Requested-With": "XMLHttpRequest",
-                        "X-CSRFToken": getCookie("csrftoken")
-                    },
-                    success: function (response) {
-                        $('#outputText').text("Successful ajax call.");
-                        alert(response);
-                    },
-                    error: function (response) {
-                        $('#outputText').text("Error.");
-                        alert("Error");
-                    }
-                }
-            );
-        }
-        else {
-            alert("Not Enough Sequences");
-        }
-    })
-);
+// $(document).ready(
+//     $('#outputButton').click(function() {
+//         if(sequence.length >= 10) {
+//             $.ajax(
+//                 {
+//                     url: "../getPrediction/",
+//                     type: "POST",
+//                     data: {
+//                         'sequence': sequence.slice(-10)
+//                     },
+//                     headers: {
+//                         "X-Requested-With": "XMLHttpRequest",
+//                         "X-CSRFToken": getCookie("csrftoken")
+//                     },
+//                     success: function (response) {
+//                         $('#outputText').text("Output: " + response);
+//                         alert(response);
+//                     },
+//                     error: function (response) {
+//                         $('#outputText').text("Error.");
+//                         alert("Error");
+//                     }
+//                 }
+//             );
+//         }
+//         else {
+//             alert("Not Enough Sequences");
+//         }
+//     })
+// );
+
+let url = window.location.href;
+url = url.replace('webcam', '');
+const model = await tf.loadLayersModel(url + 'static/mlModels/jsModel/model.json');
+
+let letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'k', 'l', 'm',
+                    'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y']
+
+document.getElementById("outputButton").addEventListener("click", function (){
+    let result = model.predict(tf.tensor3d(sequence.slice(-10).flat(), [1, 10, 63]));
+    result.reshape([24]).argMax().print();
+    console.log(letters[result.reshape([24]).argMax().dataSync()]);
+    // console.log(result);
+})

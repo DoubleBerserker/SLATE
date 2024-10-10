@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-*@(o2!i9d-h14my)s@)jd@=9!x77@-pz-03^9e#9^80%vpbza*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -126,3 +126,6 @@ STATICFILES_DIRS = (
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Directory where TF models are stored
+MODELS = os.path.join(BASE_DIR, 'static/mlModels')

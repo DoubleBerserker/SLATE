@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseBadRequest
-import tensorflow
+from .apps import ApiConfig
+# import tensorflow
 import numpy as np
 
 
@@ -26,10 +27,11 @@ def get_prediction(request):
                 tensor = tensor.astype(np.float64)
                 tensor = np.expand_dims(tensor, axis=0)
 
-                model = tensorflow.keras.models.load_model('C:\op\Projects\DoubleBerserker\SLATE\slate\core\/asl.keras')
+                # model = tensorflow.keras.models.load_model('core/asl.keras')
+                model = ApiConfig.model  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                res = model.predict(tensor)[0]
+                res = letters[np.argmax(res)]
 
-                res = model.predict(tensor)
-                print(res)
                 return HttpResponse(res)
 
             else:
@@ -39,3 +41,10 @@ def get_prediction(request):
 
     else:
         return HttpResponseBadRequest("Request method not valid")
+
+
+# Global Variables:
+letters = np.array(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'k', 'l', 'm',
+                    'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y'])
+
+# model = tensorflow.keras.models.load_model('core/asl.keras')
