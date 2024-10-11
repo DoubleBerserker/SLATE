@@ -14,7 +14,7 @@ let webcamRunning = false;
 let runningMode = 'VIDEO';
 
 // Landmarks sequence array to be sent to ML model
-let sequence = []
+let sequence = [];
 
 async function createHandLandmarker() {
     const vision = await
@@ -113,7 +113,23 @@ async function predictWebcam() {
             // console.log(sequence);
         }
     }
+
+    // Make the prediction
+    try {
+        result = model.predict(tf.tensor3d(sequence.slice(-10).flat(), [1, 10, 63]));
+        outputText.innerText = letters[result.reshape([24]).argMax().dataSync()];
+    }
+    catch (error) {
+        console.log("Not enough sequences yet.");
+    }
 }
+
+// Load the TensorFlow.js model
+let url = window.location.href;
+url = url.replace('webcam', '');
+const model = await tf.loadLayersModel(url + 'static/mlModels/jsModel/model.json');
+let result = undefined;
+let outputText = document.getElementById('outputText');
 
 function getLandmarksArray (outputValues) {
     for (let i = 0; i < 21; i++) {
@@ -171,16 +187,16 @@ function getCookie(name) {
 //     })
 // );
 
-let url = window.location.href;
-url = url.replace('webcam', '');
-const model = await tf.loadLayersModel(url + 'static/mlModels/jsModel/model.json');
+// let url = window.location.href;
+// url = url.replace('webcam', '');
+// const model = await tf.loadLayersModel(url + 'static/mlModels/jsModel/model.json');
 
 let letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'k', 'l', 'm',
                     'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y']
 
-document.getElementById("outputButton").addEventListener("click", function (){
-    let result = model.predict(tf.tensor3d(sequence.slice(-10).flat(), [1, 10, 63]));
-    result.reshape([24]).argMax().print();
-    console.log(letters[result.reshape([24]).argMax().dataSync()]);
-    // console.log(result);
-})
+// document.getElementById("outputButton").addEventListener("click", function (){
+//     let result = model.predict(tf.tensor3d(sequence.slice(-10).flat(), [1, 10, 63]));
+//     result.reshape([24]).argMax().print();
+//     console.log(letters[result.reshape([24]).argMax().dataSync()]);
+//     // console.log(result);
+// })
