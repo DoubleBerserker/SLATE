@@ -127,5 +127,6 @@ STATICFILES_DIRS = (
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Directory where TF models are stored
-MODELS = os.path.join(BASE_DIR, 'static/mlModels')
+# TF ML model directory
+# Uncomment for server-side model capability (also uncomment in apps.py)
+# MODELS = os.path.join(BASE_DIR, 'static/mlModels')
