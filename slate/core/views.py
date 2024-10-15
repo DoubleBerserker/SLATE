@@ -6,15 +6,31 @@ import numpy as np
 
 
 def home(request):
-    return render(request, 'index.html')
+    return render(request, 'home.html')
+
+
+def temp(request):
+    return render(request, 'main.html')
 
 
 def webcam_prediction(request):
     return render(request, 'webcamPrediction.html')
 
 
-# Server-side ML Model functionality (also uncomment in apps.py and urls.py)
+def learn(request):
+    return render(request, 'learn.html')
+
+
+def beginner(request):
+    return render(request, 'beginner.html')
+
+
+def letters(request):
+    return render(request, 'webcamPrediction.html')
+
+
 # def get_prediction(request):
+# Server-side ML Model functionality (also uncomment in apps.py and urls.py)
 #     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
 #
 #     if is_ajax:

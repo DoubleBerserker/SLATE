@@ -1,11 +1,21 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title> {% block title %} {% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css'%}">
 </head>
 <body>
     <h1>SLATE</h1>
+    <hr>
+    <ul class="header-links">
+        <li><a href="{% url 'home' %}">HOME</a> </li> |
+        <li><a href="">PROFILE</a></li> |
+        <li><a href="{% url 'learn' %}">LEARN</a></li> |
+        <li><a href="">GAMES</a></li> |
+        <li><a href="">PRACTICE</a></li> |
+    </ul>
     <hr> <br>
     {% block content %}
     {% endblock %}

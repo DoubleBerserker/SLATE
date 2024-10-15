@@ -125,9 +125,11 @@ async function predictWebcam() {
 }
 
 // Load the TensorFlow.js model
-let url = window.location.href;
-url = url.replace('webcam', '');
-const model = await tf.loadLayersModel(url + 'static/mlModels/jsModel/model.json');
+// let url = window.location.href;
+// url = url.replace('learn/beginner/letters', '');
+const model = await tf.loadLayersModel('http://' + location.host + '/static/mlModels/jsModel/model.json');
+let letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'k', 'l', 'm',
+                    'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y']
 let result = undefined;
 let outputText = document.getElementById('outputText');
 
@@ -187,12 +189,6 @@ function getCookie(name) {
 //     })
 // );
 
-// let url = window.location.href;
-// url = url.replace('webcam', '');
-// const model = await tf.loadLayersModel(url + 'static/mlModels/jsModel/model.json');
-
-let letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'k', 'l', 'm',
-                    'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y']
 
 // document.getElementById("outputButton").addEventListener("click", function (){
 //     let result = model.predict(tf.tensor3d(sequence.slice(-10).flat(), [1, 10, 63]));

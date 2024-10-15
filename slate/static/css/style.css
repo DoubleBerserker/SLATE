@@ -1,3 +1,7 @@
+ul.header-links li {
+  display: inline;
+}
+
 video {
   clear: both;
   display: block;

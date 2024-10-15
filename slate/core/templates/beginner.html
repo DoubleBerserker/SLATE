@@ -1,0 +1,17 @@
+{% extends "main.html" %}
+
+{% block title %} Beginner Learning {% endblock %}
+
+{% block content%}
+<div>
+  <ul>
+    <li><a href="{% url 'letters' %}">a</a></li>
+    <li><a href="{% url 'letters' %}">b</a></li>
+    <li><a href="{% url 'letters' %}">c</a></li>
+    <li><a href="{% url 'letters' %}">d</a></li>
+    <li><a href="{% url 'letters' %}">e</a></li>
+    <li><a href="{% url 'letters' %}">f</a></li>
+    <li><a href="{% url 'letters' %}">g</a></li>
+  </ul>
+</div>
+{% endblock %}
