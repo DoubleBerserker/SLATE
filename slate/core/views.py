@@ -1,7 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseBadRequest
-import numpy as np
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 
+# import numpy as np
 # from .apps import ApiConfig # ML Model configuration
 
 
@@ -26,7 +26,12 @@ def beginner(request):
 
 
 def letters(request):
-    return render(request, 'webcamPrediction.html')
+    if request.method == 'POST':
+        ltr = request.POST.get('letter', None)
+        ctx = {'letter': ltr}
+        return render(request, 'letters.html', ctx)
+
+    return HttpResponseForbidden("403 Forbidden")
 
 
 # def get_prediction(request):

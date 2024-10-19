@@ -3,15 +3,24 @@
 {% block title %} Beginner Learning {% endblock %}
 
 {% block content%}
-<div>
+<div class="lettersList">
+  <h2> Letters </h2>
   <ul>
-    <li><a href="{% url 'letters' %}">a</a></li>
-    <li><a href="{% url 'letters' %}">b</a></li>
-    <li><a href="{% url 'letters' %}">c</a></li>
-    <li><a href="{% url 'letters' %}">d</a></li>
-    <li><a href="{% url 'letters' %}">e</a></li>
-    <li><a href="{% url 'letters' %}">f</a></li>
-    <li><a href="{% url 'letters' %}">g</a></li>
+    {% for letter in "abcdefghijklmnopqrstuvwxyz" %}
+      <li><button id="letter{{ letter }}" onclick="handleLetter(this)" data-letter="{{ letter }}"> &nbsp; {{ letter }} &nbsp; </button></li>
+    {% endfor %}
   </ul>
+
+  <form action="{% url 'letters' %}" id="letterForm" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="letter">
+  </form>
 </div>
+
+<script>
+  function handleLetter(aTag) {
+    document.forms['letterForm'].elements['letter'].value = aTag.dataset.letter;
+    document.getElementById('letterForm').submit();
+  }
+</script>
 {% endblock %}

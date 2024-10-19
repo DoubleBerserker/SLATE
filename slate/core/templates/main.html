@@ -5,18 +5,19 @@
     <meta charset="UTF-8">
     <title> {% block title %} {% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/style.css'%}">
+    {% block head %} {% endblock %}
 </head>
 <body>
-    <h1>SLATE</h1>
-    <hr>
-    <ul class="header-links">
-        <li><a href="{% url 'home' %}">HOME</a> </li> |
-        <li><a href="">PROFILE</a></li> |
-        <li><a href="{% url 'learn' %}">LEARN</a></li> |
-        <li><a href="">GAMES</a></li> |
-        <li><a href="">PRACTICE</a></li> |
-    </ul>
-    <hr> <br>
+    <div>
+        <h1 style="display: inline;">SLATE</h1>
+        <a href="{% url 'home' %}">HOME</a>  |
+        <a href="">PROFILE</a> |
+        <a href="{% url 'learn' %}">LEARN</a> |
+        <a href="">GAMES</a> |
+        <a href="">PRACTICE</a> |
+        <hr>
+    </div>
+    <br>
     {% block content %}
     {% endblock %}
 </body>

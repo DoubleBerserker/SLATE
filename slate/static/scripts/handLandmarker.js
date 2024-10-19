@@ -117,7 +117,14 @@ async function predictWebcam() {
     // Make the prediction
     try {
         result = model.predict(tf.tensor3d(sequence.slice(-10).flat(), [1, 10, 63]));
-        outputText.innerText = letters[result.reshape([24]).argMax().dataSync()];
+        if (letters[result.reshape([24]).argMax().dataSync()] === letter) {
+            outputText.innerText = "Correct";
+            outputText.style.color = "green";
+        } else {
+            outputText.innerText = "Incorrect";
+            outputText.style.color = "red";
+        }
+        // outputText.innerText = letters[result.reshape([24]).argMax().dataSync()];
     }
     catch (error) {
         console.log("Not enough sequences yet.");
@@ -132,6 +139,7 @@ let letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'k', 'l', 'm',
                     'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y']
 let result = undefined;
 let outputText = document.getElementById('outputText');
+const letter = document.getElementById("outputText").dataset.letter;
 
 function getLandmarksArray (outputValues) {
     for (let i = 0; i < 21; i++) {
