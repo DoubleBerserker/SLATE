@@ -9,6 +9,18 @@ def home(request):
     return render(request, 'home.html')
 
 
+def profile(request):
+    return HttpResponse("Work In Progress!")
+
+
+def games(request):
+    return HttpResponse("Work In Progress!")
+
+
+def practice(request):
+    return HttpResponse("Work In Progress!")
+
+
 def temp(request):
     return render(request, 'main.html')
 

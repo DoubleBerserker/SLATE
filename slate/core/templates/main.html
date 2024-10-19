@@ -9,12 +9,12 @@
 </head>
 <body>
     <div>
-        <h1 style="display: inline;">SLATE</h1>
+        <a href="{% url 'home' %}" style="text-decoration: none; color: #000000"><h1 style="display: inline;" >SLATE</h1></a>
         <a href="{% url 'home' %}">HOME</a>  |
-        <a href="">PROFILE</a> |
+        <a href="{% url 'profile' %}">PROFILE</a> |
         <a href="{% url 'learn' %}">LEARN</a> |
-        <a href="">GAMES</a> |
-        <a href="">PRACTICE</a> |
+        <a href="{% url 'games' %}">GAMES</a> |
+        <a href="{% url 'practice' %}">PRACTICE</a> |
         <hr>
     </div>
     <br>
